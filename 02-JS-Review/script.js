@@ -142,9 +142,9 @@ function getBooks() {
 function getBook(id) {
   return data.find((d) => d.id === id);
 }
-
+/*
 //Destructing concepts
-const book = getBook(2);
+const book = getBook(1);
 // const title = book.title;
 // const author = book.author;
 
@@ -152,9 +152,44 @@ const { title, author, publicationDate, genres, hasMovieAdaptation, pages } =
   book;
 book;
 console.log(title, author, pages, genres);
-const [primaryGenre, secondaryGenre] = genres;
+const [primaryGenre, secondaryGenre, ...othergenreres] = genres;
 
 console.log(
-  `Primary Genre: ${primaryGenre} 
-  Secondary Genre: ${secondaryGenre}`
+  `Primary Genre: ${primaryGenre},
+  Secondary Genre: ${secondaryGenre},
+  Other Genres are: ${othergenreres}.`
 );
+
+//Spread operator
+const newGenres = [...genres, "Epic Fantasy"];
+console.log(newGenres);
+
+// spread for object
+const updatedBook = {
+  ...book,
+  //adding a extra  property here
+  moviePublicationDate: "25-03-15",
+  //overiding the previous page value
+  // pages: 1000,
+};
+console.log(updatedBook);
+
+const pagesRange =
+  updatedBook.pages > 1000
+    ? "More than 1000 pages"
+    : updatedBook.pages === 1000
+    ? "Exactly 1000 pages"
+    : "Less than 1000 pages";
+
+console.log(pagesRange, updatedBook.pages);
+*/
+// const books = getBook();
+const double = [1, 2, 3, 4, 5].map((ele) => ele * 2);
+console.log(double);
+
+const names = ["raju", "john", "sam"];
+const upperCase = names.map((name) => name.toUpperCase());
+console.log(upperCase);
+
+const longBooks = data.filter((book) => book.pages < 500);
+console.log(longBooks);
