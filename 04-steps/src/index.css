@@ -37,6 +37,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 18px;
+  border: 0.5px solid rgb(2, 2, 2);
 }
 
 .numbers .active {
@@ -54,7 +55,6 @@ body {
   flex-direction: column;
   align-items: center;
 }
-
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -67,10 +67,19 @@ body {
   border-radius: 100px;
   font-size: 14px;
   font-weight: bold;
-
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: all 0.3s ease;
+  background-color: #7950f2;
+  color: #fff;
+}
+
+.buttons button:hover {
+  background-color: #7950f2;
+  transform: scale(1.09);
+  transform-origin: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
 }
 
 .buttons button span {

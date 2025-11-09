@@ -27,7 +27,7 @@ const App = () => {
       </div>
 
       <p className="message">
-        Step{step} : {messages[step - 1]}
+        Step {step} : {messages[step - 1]}
       </p>
 
       <div className="buttons">
@@ -45,6 +45,23 @@ const App = () => {
         >
           Next
         </button>
+      </div>
+      <div
+        className="message"
+        style={{ paddding: "20px", margin: "20px", textAlign: "center" }}
+      >
+        <div
+          className="message"
+          style={{
+            padding: "10px",
+            margin: "10px",
+            textAlign: "center",
+            color: "#ef0c0cff",
+          }}
+        >
+          {step === 3 && <span>Please click on Previous button</span>}
+          {step === 1 && <span>Please click on Next button</span>}
+        </div>
       </div>
     </div>
   );
