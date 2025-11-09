@@ -47,6 +47,7 @@ const pizzaData = [
   },
 ];
 
+// App is now the main controller. It knows the opening hours.
 function App() {
   return (
     <div className="container">
@@ -58,56 +59,96 @@ function App() {
 }
 
 const Header = () => {
-  const style = {};
   return (
     <header className="header">
-      <h1 style={style}>Fast React Pizza.co</h1>
+      <h1>Fast React Pizza Co.</h1>
     </header>
   );
 };
 
+// Menu component now checks the time and decides what to render.
 const Menu = () => {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
+
+  const hour = new Date().getHours();
+  const openHour = 10;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour < closeHour;
+
+  // KEY CHANGE: We use a conditional return here.
+  // If the restaurant is NOT open, we show a message and stop.
+  if (!isOpen) {
+    return (
+      <p>
+        We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+      </p>
+    );
+  }
+
+  // If the restaurant IS open, we proceed to render the menu.
   return (
     <main className="menu">
-      <h1>Our Menu is</h1>
-      <Pizza />
+      <h2>Our menu</h2>
+      {numPizzas > 0 ? (
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>We're still working on our menu. Please come back later :)</p>
+      )}
     </main>
   );
 };
 
+function Pizza({ pizzaObj }) {
+  return (
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
+      <div>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
+      </div>
+    </li>
+  );
+}
+
 const Footer = () => {
-  const currentHour = new Date().getHours(); // gives 0–23
-  const isOpen = currentHour >= 10 && currentHour < 22;
+  const hour = new Date().getHours();
+  const openHour = 10;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour < closeHour;
+
   return (
     <footer className="footer">
-      <p>
-        {new Date().toLocaleTimeString()} — We are currently{" "}
-        <strong>{isOpen ? "open" : "closed"} </strong>
-        today.
-      </p>
+      {/* The ternary operator here decides what to show in the footer area */}
+      {isOpen ? (
+        <Order closeHour={closeHour} />
+      ) : (
+        // This message now only appears in the footer when closed.
+        <p>We're currently closed. Please visit us during our opening hours.</p>
+      )}
     </footer>
   );
 };
 
-function Pizza() {
+const Order = ({ closeHour }) => {
   return (
-    <div className="pizzas">
-      {pizzaData.map((item, index) => (
-        <div key={index} className="pizza">
-          <img src={item.photoName} alt={item.name} />
-          <div>
-            <h3>{item.name}</h3>
-            <p>{item.ingredients}</p>
-            <span>Price: {item.price}</span>
-            <p className="sold-out">
-              {item.soldOut ? "Available" : "Sold Out"}
-            </p>
-          </div>
-        </div>
-      ))}
+    <div className="order">
+      <p>We're open until {closeHour}:00. Come visit us or order online.</p>
+      <button className="btn">Order</button>
     </div>
   );
-}
+};
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -115,7 +156,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
